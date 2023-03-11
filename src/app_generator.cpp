@@ -33,7 +33,7 @@
 // EsoUnion
 #include "app_generator.h"
 #include "common.h"
-#include "search_page.h"
+#include "voting_page.h"
 
 EsoUnion::AppGenerator::AppGenerator(nlohmann::json &opt)
     :commonResources(new EsoUnion::SharedResources(opt))
@@ -65,30 +65,21 @@ std::unique_ptr<Wt::WApplication>
     /**
      * Additional stylesheet.
      **/
-    app->useStyleSheet("/style/EsoUnion_common.css");
-    /*
-    if(user_settings.getTheme() == EsoUnion::Theme::LIGHT)
-    {
-        app->useStyleSheet("/style/EsoUnion_light.css");
-    }
-    else
-    {
-        app->useStyleSheet("/style/EsoUnion_dark.css");
-    }
-    */
+    app->useStyleSheet("/style/paranal_common.css");
+    app->useStyleSheet("/style/paranal_light.css");
 
     /**
      * Load text bundles.
      **/
     app->messageResourceBundle().use(app->appRoot() + "text");
     app->root()->addWidget(
-        std::make_unique<EsoUnion::SearchPage>(
+        std::make_unique<EsoUnion::VotingPage>(
             commonResources, app.get()));
 
     /**
      * Set web site title.
      **/
-    app->setTitle("EsoUnion - Internet Search Engine");
+    app->setTitle("Sindicato Paranal");
 
     return app;
 }

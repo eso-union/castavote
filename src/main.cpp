@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     /**
      * Program settings.
      **/
-    const std::string config_path = "/usr/local/etc/EsoUnion/EsoUnion.config";
+    const std::string config_path = "/usr/local/etc/paranal/paranal.config";
     std::string text = EsoUnion::FileOps::read(config_path);
     nlohmann::json config = nlohmann::json::parse(text);
 

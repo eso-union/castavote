@@ -42,11 +42,11 @@
 
 namespace EsoUnion
 {
-    class SearchPage : public Wt::WContainerWidget
+    class VotingPage : public Wt::WContainerWidget
     {
         public:
 
-            SearchPage(
+            VotingPage(
                 boost::shared_ptr<EsoUnion::SharedResources> &sr,
                 Wt::WApplication* app);
 

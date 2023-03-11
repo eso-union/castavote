@@ -21,7 +21,6 @@
 // C++
 #include <cctype>
 #include <chrono>
-#include <thread>
 
 // Boost
 #include <boost/algorithm/string.hpp>
@@ -51,16 +50,17 @@
 // EsoUnion
 #include "file_ops.h"
 #include "plain_text_processor.h"
-#include "search_page.h"
+#include "voting_page.h"
 #include "shared_resources.h"
 
-EsoUnion::SearchPage::SearchPage(
+EsoUnion::VotingPage::VotingPage(
     boost::shared_ptr<EsoUnion::SharedResources> &sr,
     Wt::WApplication* app):
         Wt::WContainerWidget(),
         application(app),
         shared_resources(sr)
 {
+    /*
     const Wt::WEnvironment& env = Wt::WApplication::instance()->environment();
 
     std::string cookie_preferences;
@@ -72,6 +72,7 @@ EsoUnion::SearchPage::SearchPage(
     {
         Wt::log("info") << "cookie preferences = NULL";
     }
+    */
 
     //user_settings.generate(cookie_preferences);
     application->internalPathChanged().connect(
