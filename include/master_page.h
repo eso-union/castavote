@@ -72,5 +72,6 @@ namespace EsoUnion
             void Waiting();
             void GettingResults();
             void Closed();
+            void CreateWitness();
     };
 }
