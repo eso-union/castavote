@@ -42,6 +42,13 @@
 
 namespace EsoUnion
 {
+    const int INITIALISE = 0;
+    const int VALIDATE_VOTER_LIST = 1;
+    const int START_VOTING = 2;
+    const int WAITING = 3;
+    const int GET_RESULTS = 4;
+    const int CLOSED = 5;
+
     class MasterPage : public Wt::WContainerWidget
     {
         public:
@@ -52,9 +59,18 @@ namespace EsoUnion
 
         private:
 
+            int state = 0;
             Wt::WApplication *application;
             Wt::WContainerWidget *container = nullptr;
-
+            Wt::WContainerWidget *main_area = nullptr;
             boost::shared_ptr<EsoUnion::SharedResources> shared_resources;
+
+            void Select();
+            void Initialise();
+            void ValidateVoterList();
+            void StartVoting();
+            void Waiting();
+            void GettingResults();
+            void Closed();
     };
 }

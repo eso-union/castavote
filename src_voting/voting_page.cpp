@@ -60,26 +60,6 @@ EsoUnion::VotingPage::VotingPage(
         application(app),
         shared_resources(sr)
 {
-    /*
-    const Wt::WEnvironment& env = Wt::WApplication::instance()->environment();
-
-    std::string cookie_preferences;
-    if(env.getCookie("preferences"))
-    {
-        cookie_preferences= *(env.getCookie("preferences"));
-    }
-    else
-    {
-        Wt::log("info") << "cookie preferences = NULL";
-    }
-    */
-
-    //user_settings.generate(cookie_preferences);
-    application->internalPathChanged().connect(
-        [=] {
-            // shared_resources->insertOccurrence();
-        });
-
     addStyleClass("d-flex");
     addStyleClass("h-100");
     addStyleClass("text-bg-primary");
@@ -93,8 +73,41 @@ EsoUnion::VotingPage::VotingPage(
     container->addStyleClass("mx-auto");
     container->addStyleClass("flex-column");
 
-/*
-    auto header = container->addWidget(
+    container->addWidget(
         std::make_unique<Wt::WTemplate>(
-            Wt::WString::tr("search-page-header")));  */
+            Wt::WString::tr("search-page-header")));
+
+    auto result =  std::make_unique<Wt::WTemplate>(Wt::WString::tr("code_input"));
+
+    auto name = result->bindWidget("name", std::make_unique<Wt::WLineEdit>());
+    name->setPlaceholderText("codigo");
+
+    auto button = result->bindWidget("button", std::make_unique<Wt::WPushButton>("Validar"));
+
+    auto out = result->bindWidget("out", std::make_unique<Wt::WText>());
+
+    button->clicked().connect([=] {
+        out->setText("Hello, " + name->text() + "! I just want to help you... You"
+                    + " could complete this simple form by adding validation.");
+        AddChoices();
+    });
+
+    container->addWidget(std::move(result));
+}
+
+void EsoUnion::VotingPage::AddChoices()
+{
+    auto choices = std::make_unique<Wt::WContainerWidget>();
+    Wt::WCheckBox *cb;
+
+    cb = choices->addNew<Wt::WCheckBox>("Candidato A");
+    cb->setInline(false);
+
+    cb = choices->addNew<Wt::WCheckBox>("Candidato B");
+    cb->setInline(false);
+
+    cb = choices->addNew<Wt::WCheckBox>("Candidato C");
+    cb->setInline(false);
+
+    container->addWidget(std::move(choices));
 }

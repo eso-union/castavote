@@ -54,7 +54,8 @@ namespace EsoUnion
 
             Wt::WApplication *application;
             Wt::WContainerWidget *container = nullptr;
-
             boost::shared_ptr<EsoUnion::SharedResources> shared_resources;
+
+            void AddChoices();
     };
 }

@@ -61,28 +61,10 @@ EsoUnion::MasterPage::MasterPage(
         shared_resources(sr)
 {
     /*
-    const Wt::WEnvironment& env = Wt::WApplication::instance()->environment();
-
-    std::string cookie_preferences;
-    if(env.getCookie("preferences"))
-    {
-        cookie_preferences= *(env.getCookie("preferences"));
-    }
-    else
-    {
-        Wt::log("info") << "cookie preferences = NULL";
-    }
-    */
-
-    //user_settings.generate(cookie_preferences);
-    application->internalPathChanged().connect(
-        [=] {
-            // shared_resources->insertOccurrence();
-        });
-
     addStyleClass("d-flex");
     addStyleClass("h-100");
     addStyleClass("text-bg-primary");
+    */
 
     container = addWidget(std::make_unique<Wt::WContainerWidget>());
     container->addStyleClass("cover-container");
@@ -93,8 +75,161 @@ EsoUnion::MasterPage::MasterPage(
     container->addStyleClass("mx-auto");
     container->addStyleClass("flex-column");
 
-/*
-    auto header = container->addWidget(
+    Select();
+}
+
+void EsoUnion::MasterPage::Select()
+{
+    switch(state)
+    {
+        case(INITIALISE):
+        {
+            Initialise();
+            break;
+        }
+        case(VALIDATE_VOTER_LIST):
+        {
+            ValidateVoterList();
+        } break;
+        case(START_VOTING):
+        {
+            StartVoting();
+        } break;
+        case(WAITING):
+        {
+            Waiting();
+        } break;
+        case(GET_RESULTS):
+        {
+            GettingResults();
+        } break;
+        case(CLOSED):
+        {
+            Closed();
+        } break;
+    }
+}
+
+void EsoUnion::MasterPage::Initialise()
+{
+    auto main_area = std::make_unique<Wt::WContainerWidget>();
+
+    main_area->addWidget(
         std::make_unique<Wt::WTemplate>(
-            Wt::WString::tr("search-page-header")));  */
+            Wt::WString::tr("search-page-header")));
+
+    auto okPtr = std::make_unique<Wt::WPushButton>("Activar inspectores y testigos");
+    auto ok = okPtr.get();
+
+    ok->clicked().connect(ok, &Wt::WPushButton::disable);
+    ok->clicked().connect([=] {
+        // ok->setText("Activados");
+        state = VALIDATE_VOTER_LIST;
+        container->clear();
+        Select();
+    });
+
+    main_area->addWidget(std::move(okPtr));
+    container->addWidget(std::move(main_area));
+}
+
+void EsoUnion::MasterPage::ValidateVoterList()
+{
+    auto main_area = std::make_unique<Wt::WContainerWidget>();
+
+    main_area->addWidget(
+        std::make_unique<Wt::WTemplate>(
+            Wt::WString::tr("search-page-header")));
+
+    auto okPtr = std::make_unique<Wt::WPushButton>("Validar nomina");
+    auto ok = okPtr.get();
+
+    ok->clicked().connect(ok, &Wt::WPushButton::disable);
+    ok->clicked().connect([=] {
+        // ok->setText("Nomina validada");
+        state = START_VOTING;
+        container->clear();
+        Select();
+    });
+
+    main_area->addWidget(std::move(okPtr));
+    container->addWidget(std::move(main_area));
+}
+
+void EsoUnion::MasterPage::StartVoting()
+{
+    auto main_area = std::make_unique<Wt::WContainerWidget>();
+
+    main_area->addWidget(
+        std::make_unique<Wt::WTemplate>(
+            Wt::WString::tr("search-page-header")));
+
+    auto okPtr = std::make_unique<Wt::WPushButton>("Iniciar votacion");
+    auto ok = okPtr.get();
+
+    ok->clicked().connect(ok, &Wt::WPushButton::disable);
+    ok->clicked().connect([=] {
+        state = WAITING;
+        container->clear();
+        Select();
+    });
+
+    main_area->addWidget(std::move(okPtr));
+    container->addWidget(std::move(main_area));
+}
+
+void EsoUnion::MasterPage::Waiting()
+{
+    auto main_area = std::make_unique<Wt::WContainerWidget>();
+
+    main_area->addWidget(
+        std::make_unique<Wt::WTemplate>(
+            Wt::WString::tr("search-page-header")));
+
+    auto okPtr = std::make_unique<Wt::WPushButton>("Terminar espera");
+    auto ok = okPtr.get();
+
+    ok->clicked().connect(ok, &Wt::WPushButton::disable);
+    ok->clicked().connect([=] {
+        state = GET_RESULTS;
+        container->clear();
+        Select();
+    });
+
+    main_area->addWidget(std::move(okPtr));
+    container->addWidget(std::move(main_area));
+}
+
+void EsoUnion::MasterPage::GettingResults()
+{
+    auto main_area = std::make_unique<Wt::WContainerWidget>();
+
+    main_area->addWidget(
+        std::make_unique<Wt::WTemplate>(
+            Wt::WString::tr("search-page-header")));
+
+    auto okPtr = std::make_unique<Wt::WPushButton>("Termnar votacion y obtener resultados");
+    auto ok = okPtr.get();
+
+    ok->clicked().connect(ok, &Wt::WPushButton::disable);
+    ok->clicked().connect([=] {
+        state = CLOSED;
+        container->clear();
+        Select();
+    });
+
+    main_area->addWidget(std::move(okPtr));
+    container->addWidget(std::move(main_area));
+}
+
+void EsoUnion::MasterPage::Closed()
+{
+    auto main_area = std::make_unique<Wt::WContainerWidget>();
+
+    main_area->addWidget(
+        std::make_unique<Wt::WTemplate>(
+            Wt::WString::tr("search-page-header")));
+
+
+    container->addWidget(std::move(main_area));
 }
